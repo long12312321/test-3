@@ -3367,7 +3367,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "Register",
+  data: function data() {
+    return {
+      regis: {
+        email: '',
+        pass: '',
+        cofirm: '',
+        name: ''
+      },
+      errors: {},
+      display: ''
+    };
+  },
+  components: {},
+  methods: {
+    Register: function Register() {
+      var _this = this;
+
+      axios.post('http://127.0.0.1:8000/api/register', this.regis).then(function (response) {
+        _this.display = "Register successful"; // localStorage.setItem('lang',this.user.email);
+
+        window.location.reload();
+      })["catch"](function (error) {
+        _this.errors = error.response.data.errors;
+        console.log(_this.errors); // console.log(error.response.data)
+      });
+    }
+  }
+});
 
 /***/ }),
 
@@ -43414,7 +43446,26 @@ var render = function() {
             _vm._v(" "),
             _vm._m(2),
             _vm._v(" "),
-            _vm._m(3)
+            _c(
+              "div",
+              { staticClass: "text-center p-t-136" },
+              [
+                _c(
+                  "router-link",
+                  { staticClass: "txt2", attrs: { to: "register" } },
+                  [
+                    _vm._v(
+                      "\n\t\t\t\t\t\t\tCreate your Account\n\t\t\t\t\t\t\t"
+                    ),
+                    _c("i", {
+                      staticClass: "fa fa-long-arrow-right m-l-5",
+                      attrs: { "aria-hidden": "true" }
+                    })
+                  ]
+                )
+              ],
+              1
+            )
           ]
         )
       ])
@@ -43462,20 +43513,6 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("a", { staticClass: "txt2" }, [
         _vm._v("\n\t\t\t\t\t\t\tUsername / Password?\n\t\t\t\t\t\t")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-center p-t-136" }, [
-      _c("a", { staticClass: "txt2" }, [
-        _vm._v("\n\t\t\t\t\t\t\tCreate your Account\n\t\t\t\t\t\t\t"),
-        _c("i", {
-          staticClass: "fa fa-long-arrow-right m-l-5",
-          attrs: { "aria-hidden": "true" }
-        })
       ])
     ])
   }
@@ -43571,31 +43608,55 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins" },
-      [
-        _c("div", { staticClass: "wrapper wrapper--w680" }, [
-          _c("div", { staticClass: "card card-4" }, [
-            _c("div", { staticClass: "card-body" }, [
-              _c("h2", { staticClass: "title" }, [_vm._v("Registration Form")]),
-              _vm._v(" "),
-              _c("form", [
+  return _c(
+    "div",
+    { staticClass: "page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins" },
+    [
+      _c("div", { staticClass: "wrapper wrapper--w680" }, [
+        _c("div", { staticClass: "card card-4" }, [
+          _c("div", { staticClass: "card-body" }, [
+            _c("h2", { staticClass: "title" }, [_vm._v("Registration Form")]),
+            _vm._v(" "),
+            _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.Register()
+                  }
+                }
+              },
+              [
                 _c("div", { staticClass: "col-8" }, [
                   _c("div", { staticClass: "input-group" }, [
                     _c("label", { staticClass: "label" }, [_vm._v("Email")]),
                     _vm._v(" "),
                     _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.regis.email,
+                          expression: "regis.email"
+                        }
+                      ],
                       staticClass: "input--style-4",
-                      attrs: { type: "email", name: "email" }
-                    })
+                      attrs: { type: "email", name: "email" },
+                      domProps: { value: _vm.regis.email },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.regis, "email", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm.errors.email
+                      ? _c("div", [_vm._v(_vm._s(_vm.errors.email[0]))])
+                      : _vm._e()
                   ])
                 ]),
                 _vm._v(" "),
@@ -43604,9 +43665,30 @@ var staticRenderFns = [
                     _c("label", { staticClass: "label" }, [_vm._v("Password")]),
                     _vm._v(" "),
                     _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.regis.pass,
+                          expression: "regis.pass"
+                        }
+                      ],
                       staticClass: "input--style-4",
-                      attrs: { type: "text", name: "pass" }
-                    })
+                      attrs: { type: "text", name: "pass" },
+                      domProps: { value: _vm.regis.pass },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.regis, "pass", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm.errors.pass
+                      ? _c("div", [_vm._v(_vm._s(_vm.errors.pass[0]))])
+                      : _vm._e()
                   ])
                 ]),
                 _vm._v(" "),
@@ -43617,9 +43699,30 @@ var staticRenderFns = [
                     ]),
                     _vm._v(" "),
                     _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.regis.cofirm,
+                          expression: "regis.cofirm"
+                        }
+                      ],
                       staticClass: "input--style-4",
-                      attrs: { type: "text", name: "cofirm" }
-                    })
+                      attrs: { type: "text", name: "cofirm" },
+                      domProps: { value: _vm.regis.cofirm },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.regis, "cofirm", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm.errors.cofirm
+                      ? _c("div", [_vm._v(_vm._s(_vm.errors.cofirm[0]))])
+                      : _vm._e()
                   ])
                 ]),
                 _vm._v(" "),
@@ -43628,43 +43731,72 @@ var staticRenderFns = [
                     _c("label", { staticClass: "label" }, [_vm._v("Name")]),
                     _vm._v(" "),
                     _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.regis.name,
+                          expression: "regis.name"
+                        }
+                      ],
                       staticClass: "input--style-4",
-                      attrs: { type: "text", name: "name" }
-                    })
+                      attrs: { type: "text", name: "name" },
+                      domProps: { value: _vm.regis.name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.regis, "name", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm.errors.name
+                      ? _c("div", [_vm._v(_vm._s(_vm.errors.name[0]))])
+                      : _vm._e()
                   ])
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "row row-space" }, [
-                  _c("div", { staticClass: "p-t-15" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn--radius-2 btn--blue",
-                        attrs: { type: "submit", name: "register" }
-                      },
-                      [_vm._v(" Submit")]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "p-t-15" }, [
-                    _c("a", [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn--radius-2 btn--blue",
-                          attrs: { type: "button" }
-                        },
-                        [_vm._v(" Login")]
-                      )
-                    ])
-                  ])
-                ])
-              ])
-            ])
+                _vm._m(0)
+              ]
+            )
           ])
         ])
-      ]
-    )
+      ])
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row row-space" }, [
+      _c("div", { staticClass: "p-t-15" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn--radius-2 btn--blue",
+            attrs: { type: "submit", name: "register" }
+          },
+          [_vm._v(" Submit")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "p-t-15" }, [
+        _c("a", [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn--radius-2 btn--blue",
+              attrs: { type: "button" }
+            },
+            [_vm._v(" Login")]
+          )
+        ])
+      ])
+    ])
   }
 ]
 render._withStripped = true

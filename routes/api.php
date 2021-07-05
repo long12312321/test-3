@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,3 +44,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
  Route::post('/deleteComment',[AdminController::class,'deleteComment']);
  Route::get('editC/{id}',[AdminController::class,'getEditComment']);
  Route::post('editC/{id}',[AdminController::class,'editComment']);
+
+ // register 
+ Route::post('/register',[RegisterController::class,'registerAccount']);
