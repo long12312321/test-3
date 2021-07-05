@@ -16,8 +16,8 @@ class ListComment extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_id' => $this->users_id,
-            'post_id' => $this->posts_id,
+            'users_id' => $this->users_id,
+            'posts_id' => $this->posts_id,
             'content' => $this->content,
            
 
