@@ -23,6 +23,7 @@ class EditUser extends FormRequest
      */
     public function rules()
     {
+        
         return [
             'email' => "required|email|unique:users,email,id",
             'password'  => 'required',

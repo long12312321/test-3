@@ -45,12 +45,16 @@
 					<!-- //@endforeach -->
 				</tbody>
 			</table>
-		
+			<div class="clearfix" >			
+				 <pagination :data="listUsers" @pagination-change-page="getUsers"></pagination>
+			</div>
 			
 			<div class="p-t-15">
-                    <a href="">
+                    
+						 <router-link to="home">
                     <button class="btn btn--radius-2 btn--blue" type="button" > Home</button>
-                    </a>
+					</router-link>
+                
             </div>  
 		</div>
 	</div>      
@@ -88,7 +92,7 @@
 					</div>			
 				</div>
 				<div class="modal-footer" >
-					<input type="button" v-on:click="doCancel()" class="btn btn-default" data-dismiss="modal" value="Cancel">
+					<input type="button" v-on:click="doCancel()" class="btn btn-danger" data-dismiss="modal" value="Cancel">
 					<input type="submit"  class="btn btn-success" value="Add">
 				</div>
 			</form>

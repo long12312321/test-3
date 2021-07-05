@@ -13,12 +13,12 @@
 				<div class="modal-body" >
 				<div class="form-group">
 						<label>ID</label>
-						<input type="text" class="form-control" name="id" v-bind:value="this.listUsers.id" disabled >
+						<input type="text" class="form-control" name="id"  v-model="user.id"  disabled >
 					</div>	
 							
 					<div class="form-group">
 						<label>Name</label>
-						<input type="text" class="form-control" name="name" v-bind:value="this.listUsers.name" >
+						<input type="text" v-model="user.name" class="form-control" name="name"  >
 						<div class="alert ">
 								<div v-if="errors.name">{{errors.name[0]}}</div>
     					</div>
@@ -27,7 +27,7 @@
 
 					<div class="form-group">
 						<label>Email</label>
-						<input type="text" class="form-control" name="email" v-bind:value="this.listUsers.email">
+						<input type="text" v-model="user.email" class="form-control" name="email" >
 						<div class="alert ">
 								<div v-if="errors.email">{{errors.email[0]}}</div>
     					</div>
@@ -36,14 +36,14 @@
 				
 					<div class="form-group">
 						<label>Password</label>
-						<input type="text" class="form-control" name="password" v-bind:value="this.listUsers.password" >
+						<input type="text" v-model="user.password" class="form-control" name="password" >
 						<div class="alert ">
 								<div v-if="errors.password">{{errors.password[0]}}</div>
     					</div>
 					</div>
 					<div class="form-group">
 						<label>Role</label>
-						<input type="text" class="form-control" name="role" v-bind:value="this.listUsers.role" >
+						<input type="text" v-model="user.role" class="form-control" name="role">
 						<div class="alert ">
 								<div v-if="errors.role">{{errors.role[0]}}</div>
     					</div>
@@ -69,6 +69,13 @@ export default {
       listUsers: {
 		
 	  },
+	   user:{
+		   id:'',
+		email:'',
+		password:'',
+		name:'',
+		role:''
+		},
 	  errors:{}
     };
   },
@@ -81,21 +88,22 @@ export default {
 			axios.get('http://127.0.0.1:8000/api/edit/' +this.$route.params.id)
 				.then(response => {
 					console.log(response.data)
-					this.listUsers = response.data.data[0];
+					this.user = response.data.data[0];
 				});
 		},
 		doCancel(){
 			this.$router.push({name: 'adminUser'});
 		},
 		editUser(){
-		axios.post('http://127.0.0.1:8000/api/edit1/' +this.$route.params.id)
+		axios.post('http://127.0.0.1:8000/api/edit/' +this.$route.params.id,this.user)
 				.then(response => {
-					console.log(response.data)
+					// console.log(response.data);
+					this.listUsers =response.data.data;
 					this.$router.push({name: 'adminUser'});
 				})
 				.catch(error => {
                     this.errors = error.response.data.errors  
-                    //console.log(error.response.data)
+                    console.log(error.response.data)
                    
                 })
 		}

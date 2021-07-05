@@ -22,9 +22,24 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
  Route::get('/home',[HomeController::class,'getBlog']);
  Route::post('/login',[LoginController::class,'postLogin']);
+ // admin user
  Route::get('/adminUser',[AdminController::class,'getUser']);
  Route::post('/add',[AdminController::class,'addUser']);
  Route::post('/delete',[AdminController::class,'deleteUser']);
  Route::get('edit/{id}',[AdminController::class,'getEditUser']);
- Route::post('edit1/{id}',[AdminController::class,'editUser']);
+ Route::post('edit/{id}',[AdminController::class,'editUser']);
+ // admin post
 
+ Route::get('/adminPost',[AdminController::class,'getBlog']);
+ Route::post('/addPost',[AdminController::class,'addPost']);
+ Route::post('/deletePost',[AdminController::class,'deletePost']);
+ Route::get('editP/{id}',[AdminController::class,'getEditPost']);
+ Route::post('editP/{id}',[AdminController::class,'editPost']);
+
+
+ // admin comment
+ Route::get('/adminComment',[AdminController::class,'getComment']);
+ Route::post('/addComment',[AdminController::class,'addComment']);
+ Route::post('/deleteComment',[AdminController::class,'deleteComment']);
+ Route::get('editC/{id}',[AdminController::class,'getEditComment']);
+ Route::post('editC/{id}',[AdminController::class,'editComment']);
