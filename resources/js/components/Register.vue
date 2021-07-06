@@ -82,8 +82,7 @@ export default {
 	Register(){
 		axios.post('http://127.0.0.1:8000/api/register',this.regis)
 			.then(response => {
-			
-                      this.display="Register successful"
+                    this.display="Register successful"
                         // localStorage.setItem('lang',this.user.email);
                           window.location.reload();
                  

@@ -2606,23 +2606,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Detail",
   components: {
     Navbar: _Navbar__WEBPACK_IMPORTED_MODULE_0__.default
+  },
+  data: function data() {
+    return {
+      listPost: {},
+      listComment: {}
+    };
+  },
+  mounted: function mounted() {
+    this.getResults();
+  },
+  methods: {
+    getResults: function getResults() {
+      var _this = this;
+
+      console.log(this.$route.params.id);
+      axios.get('http://127.0.0.1:8000/api/detail/' + this.$route.params.id).then(function (response) {
+        console.log(response.data.list_post);
+        _this.listComment = response.data.list_comment;
+        _this.listPost = response.data.list_post;
+      })["catch"](function (error) {
+        _this.errors = error.response.data.errors;
+        console.log(error.response.data);
+      });
+    }
   }
 });
 
@@ -3139,6 +3151,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('http://127.0.0.1:8000/api/home?page=' + page).then(function (response) {
+        console.log(response.data);
         _this.listB = response.data;
       });
     }
@@ -3291,10 +3304,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "Navbar",
   mounted: function mounted() {
     console.log("Component mounted.");
+  },
+  methods: {
+    doLogin: function doLogin() {
+      this.$router.push({
+        name: 'login'
+      });
+    }
   }
 });
 
@@ -3414,10 +3434,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var _router_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./router.js */ "./resources/js/router.js");
 /* harmony import */ var _components_App__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/App */ "./resources/js/components/App.vue");
+/* harmony import */ var _components_Detail__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Detail */ "./resources/js/components/Detail.vue");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -3430,7 +3451,8 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js"
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_2__.default.use(vue_router__WEBPACK_IMPORTED_MODULE_3__.default);
+
+vue__WEBPACK_IMPORTED_MODULE_3__.default.use(vue_router__WEBPACK_IMPORTED_MODULE_4__.default);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -3441,21 +3463,21 @@ vue__WEBPACK_IMPORTED_MODULE_2__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-vue__WEBPACK_IMPORTED_MODULE_2__.default.component('App', __webpack_require__(/*! ./components/App.vue */ "./resources/js/components/App.vue").default);
-vue__WEBPACK_IMPORTED_MODULE_2__.default.component('pagination', __webpack_require__(/*! laravel-vue-pagination */ "./node_modules/laravel-vue-pagination/dist/laravel-vue-pagination.common.js"));
-vue__WEBPACK_IMPORTED_MODULE_2__.default.component('Home', __webpack_require__(/*! ./components/Home.vue */ "./resources/js/components/Home.vue").default);
+vue__WEBPACK_IMPORTED_MODULE_3__.default.component('App', __webpack_require__(/*! ./components/App.vue */ "./resources/js/components/App.vue").default);
+vue__WEBPACK_IMPORTED_MODULE_3__.default.component('pagination', __webpack_require__(/*! laravel-vue-pagination */ "./node_modules/laravel-vue-pagination/dist/laravel-vue-pagination.common.js"));
+vue__WEBPACK_IMPORTED_MODULE_3__.default.component('Home', __webpack_require__(/*! ./components/Home.vue */ "./resources/js/components/Home.vue").default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-var router = new vue_router__WEBPACK_IMPORTED_MODULE_3__.default({
+var router = new vue_router__WEBPACK_IMPORTED_MODULE_4__.default({
   mode: 'history',
   routes: _router_js__WEBPACK_IMPORTED_MODULE_0__.routes
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);
-var app = new vue__WEBPACK_IMPORTED_MODULE_2__.default({
+var app = new vue__WEBPACK_IMPORTED_MODULE_3__.default({
   el: '#app',
   router: router,
   render: function render(h) {
@@ -3541,7 +3563,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var routes = [{
-  path: '/detail',
+  path: '/detail/:id',
+  name: 'detail',
   component: _components_Detail__WEBPACK_IMPORTED_MODULE_0__.default
 }, {
   path: '/home',
@@ -42461,7 +42484,76 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    [_c("navbar"), _vm._v(" "), _vm._m(0), _vm._v(" "), _vm._m(1)],
+    [
+      _c("navbar"),
+      _vm._v(" "),
+      _c("div", { attrs: { id: "news" } }, [
+        _c("article", { staticClass: "blog-post px-3 py-5 p-md-5" }, [
+          _c("div", { staticClass: "container" }, [
+            _c("header", { staticClass: "blog-post-header" }, [
+              _c("h2", { staticClass: "title mb-2" }, [
+                _vm._v(_vm._s(_vm.listPost.title) + " ")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "blog-post-body" }, [
+              _c("figure", { staticClass: "blog-banner" }, [
+                _c("img", {
+                  staticClass: "img-fluid border border-dark",
+                  attrs: {
+                    src: "/" + _vm.listPost.image,
+                    height: "800px",
+                    width: "800px",
+                    alt: "image"
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("p", [_vm._v(" " + _vm._s(_vm.listPost.description))])
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "section",
+        { staticClass: "content-item", attrs: { id: "comments" } },
+        [
+          _c("div", { staticClass: "container" }, [
+            _c("div", { staticClass: "row" }, [
+              _c(
+                "div",
+                { staticClass: "col-sm-8" },
+                [
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("h3", [_vm._v("Comments")]),
+                  _vm._v(" "),
+                  _vm._l(_vm.listComment, function(listC) {
+                    return _c("div", { key: listC.id, staticClass: "media" }, [
+                      _vm._m(1, true),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "media-body" }, [
+                        _c("h4", { staticClass: "media-heading" }, [
+                          _vm._v(_vm._s(listC.name))
+                        ]),
+                        _vm._v(" "),
+                        _c("p", [_vm._v(" " + _vm._s(listC.content))]),
+                        _vm._v(" "),
+                        _vm._m(2, true)
+                      ])
+                    ])
+                  })
+                ],
+                2
+              )
+            ])
+          ])
+        ]
+      )
+    ],
     1
   )
 }
@@ -42470,34 +42562,60 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { attrs: { id: "news" } }, [
-      _c("article", { staticClass: "blog-post px-3 py-5 p-md-5" }, [
-        _c("div", { staticClass: "container" }, [
-          _c("header", { staticClass: "blog-post-header" }, [
-            _c("h2", { staticClass: "title mb-2" }, [_vm._v("A ")])
+    return _c("form", [
+      _c("h3", { staticClass: "pull-left" }, [_vm._v("New Comment")]),
+      _vm._v(" "),
+      _c("fieldset", [
+        _c("div", { staticClass: "row row-space" }, [
+          _c("div", { staticClass: "col-sm-3 col-lg-2 hidden-xs" }, [
+            _c("img", {
+              staticClass: "img-responsive",
+              attrs: {
+                src: "https://bootdey.com/img/Content/avatar/avatar1.png",
+                width: "127px",
+                height: "100px",
+                alt: ""
+              }
+            })
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "blog-post-body" }, [
-            _c("figure", { staticClass: "blog-banner" }, [
-              _c("img", {
-                staticClass: "img-fluid border border-dark",
+          _c(
+            "div",
+            { staticClass: "form-group col-xs-12 col-sm-9 col-lg-10" },
+            [
+              _c("textarea", {
+                staticClass: "form-control",
                 attrs: {
-                  src: "blog.png",
-                  height: "800px",
-                  width: "800px",
-                  alt: "image"
+                  id: "message",
+                  name: "content",
+                  placeholder: "Your message",
+                  required: ""
                 }
               })
-            ]),
-            _vm._v(" "),
-            _c("p", [
-              _vm._v(
-                " You probably know this next part by heart. You have the right to remain silent. \r\n            Anything you say can and will be used against you in a court of law ...\r\n             You probably know this next part by heart. You have the right to remain silent. \r\n            Anything you say can and will be used against you in a court of law ...\r\n             You probably know this next part by heart. You have the right to remain silent. \r\n            Anything you say can and will be used against you in a court of law ...\r\n             You probably know this next part by heart. You have the right to remain silent. \r\n            Anything you say can and will be used against you in a court of law ...\r\n             You probably know this next part by heart. You have the right to remain silent. \r\n            Anything you say can and will be used against you in a court of law ...\r\n             You probably know this next part by heart. You have the right to remain silent. \r\n            Anything you say can and will be used against you in a court of law ..."
-              )
-            ])
-          ])
+            ]
+          )
         ])
-      ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        { staticClass: "btn btn-danger", attrs: { type: "submit" } },
+        [_vm._v(" Submit")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { staticClass: "pull-left", attrs: { href: "#" } }, [
+      _c("img", {
+        staticClass: "media-object",
+        attrs: {
+          src: "https://bootdey.com/img/Content/avatar/avatar1.png",
+          alt: ""
+        }
+      })
     ])
   },
   function() {
@@ -42505,94 +42623,12 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c(
-      "section",
-      { staticClass: "content-item", attrs: { id: "comments" } },
+      "ul",
+      { staticClass: "list-unstyled list-inline media-detail pull-left" },
       [
-        _c("div", { staticClass: "container" }, [
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-sm-8" }, [
-              _c("form", [
-                _c("h3", { staticClass: "pull-left" }, [_vm._v("New Comment")]),
-                _vm._v(" "),
-                _c("fieldset", [
-                  _c("div", { staticClass: "row row-space" }, [
-                    _c("div", { staticClass: "col-sm-3 col-lg-2 hidden-xs" }, [
-                      _c("img", {
-                        staticClass: "img-responsive",
-                        attrs: {
-                          src:
-                            "https://bootdey.com/img/Content/avatar/avatar1.png",
-                          width: "127px",
-                          height: "100px",
-                          alt: ""
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass: "form-group col-xs-12 col-sm-9 col-lg-10"
-                      },
-                      [
-                        _c("textarea", {
-                          staticClass: "form-control",
-                          attrs: {
-                            id: "message",
-                            name: "content",
-                            placeholder: "Your message",
-                            required: ""
-                          }
-                        })
-                      ]
-                    )
-                  ])
-                ]),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  { staticClass: "btn btn-danger", attrs: { type: "submit" } },
-                  [_vm._v(" Submit")]
-                )
-              ]),
-              _vm._v(" "),
-              _c("br"),
-              _vm._v(" "),
-              _c("h3", [_vm._v("Comments")]),
-              _vm._v(" "),
-              _c("div", { staticClass: "media" }, [
-                _c("a", { staticClass: "pull-left", attrs: { href: "#" } }, [
-                  _c("img", {
-                    staticClass: "media-object",
-                    attrs: {
-                      src: "https://bootdey.com/img/Content/avatar/avatar1.png",
-                      alt: ""
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "media-body" }, [
-                  _c("h4", { staticClass: "media-heading" }, [_vm._v("1")]),
-                  _vm._v(" "),
-                  _c("p", [_vm._v(" HI")]),
-                  _vm._v(" "),
-                  _c(
-                    "ul",
-                    {
-                      staticClass:
-                        "list-unstyled list-inline media-detail pull-left"
-                    },
-                    [
-                      _c("li", [
-                        _c("p", { staticClass: "pull-right" }, [
-                          _c("small", [_vm._v("20/05/2021")])
-                        ])
-                      ])
-                    ]
-                  )
-                ])
-              ])
-            ])
+        _c("li", [
+          _c("p", { staticClass: "pull-right" }, [
+            _c("small", [_vm._v("20/05/2021")])
           ])
         ])
       ]
@@ -43314,9 +43350,14 @@ var render = function() {
                         _vm._v(_vm._s(listBlog.short_des))
                       ]),
                       _vm._v(" "),
-                      _c("router-link", { attrs: { to: "detail" } }, [
-                        _vm._v("Read more →")
-                      ])
+                      _c(
+                        "router-link",
+                        {
+                          staticClass: "nav-link",
+                          attrs: { to: "/detail/" + listBlog.id }
+                        },
+                        [_vm._v("Read more →")]
+                      )
                     ],
                     1
                   )

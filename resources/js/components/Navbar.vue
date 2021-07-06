@@ -12,7 +12,6 @@
            <ul class="navbar-nav">
                 <li class="nav-item active">
                      <router-link to="login"  class="nav-link">Login</router-link>
-                   
                 </li>
            </ul>
            </ul>
@@ -24,9 +23,15 @@
 
 <script>
 export default {
+  name:"Navbar",
   mounted() {
     console.log("Component mounted.");
   },
+  methods:{
+    doLogin(){
+      this.$router.push({name: 'login'});
+    }
+  }
 };
 </script>
 

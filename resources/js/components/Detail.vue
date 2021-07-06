@@ -1,33 +1,21 @@
 <template>
 <div>
   
-<navbar> 
-  
+<navbar>
 </navbar>
   <div id="news">      
 	    <article class="blog-post px-3 py-5 p-md-5">
        
 		    <div class="container">
 			    <header class="blog-post-header">
-				    <h2 class="title mb-2">A </h2>
+				    <h2 class="title mb-2">{{ listPost.title }} </h2>
 			    </header>	    
 			    <div class="blog-post-body">
 				    <figure class="blog-banner">
-				      <img class="img-fluid border border-dark" src="blog.png" height="800px" width="800px" alt="image">
+				      <img class="img-fluid border border-dark" v-bind:src="'/'+listPost.image" height="800px" width="800px" alt="image">
 	
 				    </figure>
-				    <p> You probably know this next part by heart. You have the right to remain silent. 
-            Anything you say can and will be used against you in a court of law ...
-             You probably know this next part by heart. You have the right to remain silent. 
-            Anything you say can and will be used against you in a court of law ...
-             You probably know this next part by heart. You have the right to remain silent. 
-            Anything you say can and will be used against you in a court of law ...
-             You probably know this next part by heart. You have the right to remain silent. 
-            Anything you say can and will be used against you in a court of law ...
-             You probably know this next part by heart. You have the right to remain silent. 
-            Anything you say can and will be used against you in a court of law ...
-             You probably know this next part by heart. You have the right to remain silent. 
-            Anything you say can and will be used against you in a court of law ...</p>
+				    <p> {{listPost.description}}</p>
 				    
                 </div>
             </div><!--//container-->
@@ -61,11 +49,11 @@
                 
                 <!-- COMMENT 1 - START -->
  	
-                <div class="media">
+                <div class="media" v-for="listC in listComment" :key="listC.id">
                     <a class="pull-left" href="#"><img class="media-object" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt=""></a>
                     <div class="media-body">
-                        <h4 class="media-heading">1</h4>
-                        <p> HI</p>
+                        <h4 class="media-heading">{{listC.name}}</h4>
+                        <p> {{listC.content}}</p>
                         <ul class="list-unstyled list-inline media-detail pull-left">
                             <li> <p class="pull-right"><small>20/05/2021</small></p></li>
               
@@ -92,8 +80,34 @@ export default {
    components: {
     Navbar
   },
+  data: function () {
+    return {
+      listPost: {},
+	   listComment: {},
+    };
+  }, 
+  mounted(){
+    this.getResults();
+  },
+  methods:{
+    getResults() {
+		console.log(this.$route.params.id);
+			axios.get('http://127.0.0.1:8000/api/detail/'+this.$route.params.id)
+				.then(response => {
+					console.log(response.data.list_post);
+					this.listComment=response.data.list_comment;
+					this.listPost=response.data.list_post;
+				})
+				  .catch(error => {
+                    this.errors = error.response.data.errors;
+                    console.log(error.response.data)
+                });
+		}
+  }
+};
 
-}
+
+
 </script>
 
 <style>

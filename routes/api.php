@@ -6,6 +6,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\DetailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,3 +48,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
  // register 
  Route::post('/register',[RegisterController::class,'registerAccount']);
+
+ // detail post
+ Route::get('detail/{id}',[DetailController::class,'viewIndex']);
+ 

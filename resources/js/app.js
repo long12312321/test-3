@@ -12,6 +12,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import {routes} from './router.js';
 import App from './components/App';
+import Detail from './components/Detail';
 Vue.use(Router);
 
 /**
@@ -28,6 +29,7 @@ Vue.use(Router);
 Vue.component('App', require('./components/App.vue').default);
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('Home', require('./components/Home.vue').default);
+
 
 
 

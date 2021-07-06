@@ -15,7 +15,7 @@
           <div class="media-body">
             <h3 class="title mb-1">{{ listBlog.title }}</h3>
             <div class="intro">{{ listBlog.short_des }}</div>
-            <router-link to="detail">Read more &rarr;</router-link>
+              <router-link v-bind:to="'/detail/' + listBlog.id"  class="nav-link">Read more &rarr;</router-link>
           </div>
           <!--//media-body-->
         </div>
@@ -52,9 +52,11 @@ export default {
     getResults(page = 1) {
 			axios.get('http://127.0.0.1:8000/api/home?page=' + page)
 				.then(response => {
+          console.log(response.data);
 					this.listB = response.data;
 				});
-		}
+		},
+   
   }
 };
 </script>
