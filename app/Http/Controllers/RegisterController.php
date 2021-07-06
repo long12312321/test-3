@@ -21,7 +21,7 @@ class RegisterController extends Controller
             'name'=>  $request->input("name")
     ];
     Mail::send('content_email',$details,function($message) use($request){
-        $message->from ('haibatcom1@gmail.com','Leo2k');
+        $message->from ('long.duc.5074@gmail.com','Leo2k');
         $message->to ($request->email,$request->name);
         $message->subject('Mail cofirm account');
     });
